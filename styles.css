@@ -4,6 +4,16 @@
 
 button{
     width:24%;
+    height:20%;
+    border-radius: 10px;
+    font-size: x-large;
+}
+
+.top-btn{
+    width:35%;
+    height:30%;
+    border-radius: 10px;
+    font-size: large;
 }
 
 .num-Buttons, .input-text, .top-buttons{
@@ -42,6 +52,7 @@ button{
     height: 80vh;
     width: 30vw;
 }
+
 .main-container{
     display: flex;
     justify-content: center;
