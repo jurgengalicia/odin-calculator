@@ -1,5 +1,5 @@
 *{
-    border: 0.5px solid red;
+    
 }
 
 button{
@@ -16,6 +16,7 @@ button{
     font-size: large;
 }
 
+
 .num-Buttons, .input-text, .top-buttons{
     display:flex;
     flex-wrap: wrap;
@@ -26,7 +27,9 @@ button{
 .input-text{
     flex-direction: column;
     justify-content: space-around;
+    background-color: aliceblue;
     align-items: flex-end;
+    border-radius: 10px;
     height: 15%;
 }
 
@@ -43,10 +46,18 @@ button{
     gap: 2px;
 }
 
+.operator-1{
+    padding: 10px;
+    font-size: x-large;}
+.operator-2{
+    padding: 10px;
+    font-size: xx-large;}
+
 .calc-container{
     display: flex;
     flex-direction: column;
     background-color:aquamarine;
+    border-radius: 20px;
     padding: 2px;
     padding: 10px;
     height: 80vh;
