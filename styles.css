@@ -10,8 +10,8 @@ button{
 }
 
 .top-btn{
-    width:35%;
-    height:30%;
+    width:45%;
+    height:60%;
     border-radius: 10px;
     font-size: large;
 }
@@ -26,13 +26,13 @@ button{
 
 .input-text{
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     background-color: aliceblue;
     align-items: flex-end;
     border: black 2px solid;
     border-radius: 10px;
     margin: 5px;
-    height: 15%;
+    height: 25%;
 }
 
 .top-buttons{
@@ -60,10 +60,11 @@ button{
     flex-direction: column;
     background-color:aquamarine;
     border-radius: 20px;
+    border: 3px solid black;
     padding: 2px;
     padding: 10px;
-    height: 800px;
-    width: 500px;
+    height: 700px;
+    width: 400px;
 }
 
 .main-container{

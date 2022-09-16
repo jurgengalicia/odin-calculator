@@ -1,5 +1,6 @@
 
 let numButtons = document.querySelectorAll(".number")
+let operatorButtons = document.querySelectorAll(".operator")
 let clearButton = document.querySelector(".clear")
 let activeOperator = document.querySelector(".operator-2")
 let queueOperator = document.querySelector(".operator-1")
@@ -10,6 +11,7 @@ let multiply = (a,b) => a*b;
 let divide = (a,b) => a/b;
 
 let activeNum = 0;
+let queueText = "";
 let queueNum = "";
 let chosenOperator = "";
 
@@ -42,8 +44,10 @@ function updateActive(){
 
 function pickOperator(){
     if(!chosenOperator){
-        chosenOperator = this.textContent;
+        queueOperator.textContent = `${activeNum} ${this.textContent}`;
         queueNum = activeNum;
+        activeNum = 0;
+        activeOperator.textContent = activeNum;
     }
     
 }
@@ -51,5 +55,9 @@ function pickOperator(){
 numButtons.forEach(element => {
     element.addEventListener('click',updateActive)
 });
+operatorButtons.forEach(element => {
+    element.addEventListener('click',pickOperator)
+});
+
 
 clearButton.addEventListener('click',clearCalculator)
