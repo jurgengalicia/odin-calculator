@@ -27,7 +27,15 @@ let operList = {
     "÷":divide
 }
 
+function divideByZero(){
+    if(chosenOperator === "÷" && operator2num === 0){
+        clearCalculator();
+        alert("Cannot divide by Zero");
+    }
+}
+
 function operate(){
+    divideByZero();
     if(operationReady){
         queueOperator.textContent += ` ${activeOperator.textContent} ${this.textContent}`;
         activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
@@ -41,6 +49,8 @@ function clearCalculator(){
     operator2num = 0;
     activeOperator.textContent = 0;
     queueOperator.textContent = "";
+    resetActive = false;
+    operationReady = false
 }
 
 function updateActiveOp(){
@@ -56,24 +66,30 @@ function updateActiveOp(){
     else
         operator1num = parseInt(activeOperator.textContent);
 
-    if(operator2num && chosenOperator){
+    if(this.textContent === "0" || operator2num && chosenOperator){
         operationReady = true;
     }
 }
 
 function pickOperator(){
-    if(operationReady){
-        let chainSol = operList[chosenOperator](operator1num,operator2num);
-        queueOperator.textContent = ` ${chainSol} ${this.textContent}`;
-        activeOperator.textContent = chainSol;
-        operator1num = chainSol;
-        operator2num = 0;
-        operationReady = false;
-    }else{
-        queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
+    if(chosenOperator === "÷" && operator2num === 0)
+        divideByZero();
+    else{
+        if(operationReady){
+            let chainSol = operList[chosenOperator](operator1num,operator2num);
+            queueOperator.textContent = ` ${chainSol} ${this.textContent}`;
+            activeOperator.textContent = chainSol;
+            operator1num = chainSol;
+            operator2num = 0;
+            operationReady = false;
+            divideByZero();
+        }else{
+            queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
+        }
+        chosenOperator = this.textContent;
+        resetActive = true;    
     }
-    chosenOperator = this.textContent;
-    resetActive = true;
+    
     
 }
 
