@@ -5,6 +5,7 @@ let equalsButton = document.querySelector(".equals")
 let clearButton = document.querySelector(".clear")
 let activeOperator = document.querySelector(".operator-2")
 let queueOperator = document.querySelector(".operator-1")
+let decimalButton = document.querySelector(".period")
 
 let add = (a,b) => a+b;
 let subtract = (a,b) => a-b;
@@ -28,15 +29,18 @@ let operList = {
 }
 
 function divideByZero(){
-    if(chosenOperator === "÷" && operator2num === 0){
+    if(chosenOperator === "÷" && operator2num === 0 && operationReady){
         clearCalculator();
         alert("Cannot divide by Zero");
+        return true;
     }
+    return false;
 }
 
 function operate(){
-    divideByZero();
-    if(operationReady){
+    if(divideByZero())
+        return;
+    else if(operationReady){
         queueOperator.textContent += ` ${activeOperator.textContent} ${this.textContent}`;
         activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
         operationReady = false;
@@ -54,7 +58,7 @@ function clearCalculator(){
 }
 
 function updateActiveOp(){
-    if(activeOperator.textContent === "0" || resetActive){
+    if(activeOperator.textContent === "0" || resetActive || !operationReady){
         activeOperator.textContent = this.textContent;
         resetActive = false;
     }else{
@@ -62,9 +66,9 @@ function updateActiveOp(){
     }
 
     if(chosenOperator)
-        operator2num = parseInt(activeOperator.textContent);
+        operator2num = activeOperator.textContent.includes(".") ? parseFloat(activeOperator.textContent) : parseInt(activeOperator.textContent);
     else
-        operator1num = parseInt(activeOperator.textContent);
+        operator1num = activeOperator.textContent.includes(".") ? parseFloat(activeOperator.textContent) : parseInt(activeOperator.textContent);
 
     if(this.textContent === "0" || operator2num && chosenOperator){
         operationReady = true;
@@ -72,25 +76,30 @@ function updateActiveOp(){
 }
 
 function pickOperator(){
-    if(chosenOperator === "÷" && operator2num === 0)
-        divideByZero();
-    else{
-        if(operationReady){
-            let chainSol = operList[chosenOperator](operator1num,operator2num);
-            queueOperator.textContent = ` ${chainSol} ${this.textContent}`;
-            activeOperator.textContent = chainSol;
-            operator1num = chainSol;
-            operator2num = 0;
-            operationReady = false;
-            divideByZero();
-        }else{
-            queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
-        }
-        chosenOperator = this.textContent;
-        resetActive = true;    
+    if(divideByZero())
+        return;
+    else if(operationReady){
+        let chainSol = operList[chosenOperator](operator1num,operator2num);
+        queueOperator.textContent = ` ${chainSol} ${this.textContent}`;
+        activeOperator.textContent = chainSol;
+        operator1num = chainSol;
+        operator2num = 0;
+        operationReady = false;
+
+    }else{
+        queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
     }
-    
-    
+    chosenOperator = this.textContent;
+    resetActive = true;    
+}
+
+function decimalOperator(){
+    if(activeOperator.textContent.includes("."))
+        return;
+    else{
+        activeOperator.textContent += this.textContent;
+        
+    }
 }
 
 numButtons.forEach(element => {
@@ -103,3 +112,4 @@ operatorButtons.forEach(element => {
 
 clearButton.addEventListener('click',clearCalculator)
 equalsButton.addEventListener('click',operate)
+decimalButton.addEventListener('click',decimalOperator)
