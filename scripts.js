@@ -17,6 +17,7 @@ let operator1num = 0;
 let chosenOperator = "";
 let operator2num = 0;
 let resetActive = false;
+let operationReady = false
 
 
 let operList = {
@@ -26,14 +27,11 @@ let operList = {
     "÷":divide
 }
 
-function allReady(){
-    return operator1num && chosenOperator && operator2num;
-}
-
 function operate(){
-    if(allReady()){
+    if(operationReady){
         queueOperator.textContent += ` ${activeOperator.textContent} ${this.textContent}`;
         activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
+        operationReady = false;
     }
 }
 
@@ -57,12 +55,26 @@ function updateActiveOp(){
         operator2num = parseInt(activeOperator.textContent);
     else
         operator1num = parseInt(activeOperator.textContent);
+
+    if(operator2num && chosenOperator){
+        operationReady = true;
+    }
 }
 
 function pickOperator(){
-    queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
+    if(operationReady){
+        let chainSol = operList[chosenOperator](operator1num,operator2num);
+        queueOperator.textContent = ` ${chainSol} ${this.textContent}`;
+        activeOperator.textContent = chainSol;
+        operator1num = chainSol;
+        operator2num = 0;
+        operationReady = false;
+    }else{
+        queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
+    }
     chosenOperator = this.textContent;
     resetActive = true;
+    
 }
 
 numButtons.forEach(element => {
