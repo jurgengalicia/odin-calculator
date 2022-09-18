@@ -19,6 +19,7 @@ let chosenOperator = "";
 let operator2num = 0;
 let resetActive = false;
 let operationReady = false
+let resetCalc = false;
 
 
 let operList = {
@@ -29,7 +30,7 @@ let operList = {
 }
 
 function divideByZero(){
-    if(chosenOperator === "÷" && operator2num === 0 && operationReady){
+    if(chosenOperator === "÷" && operator2num === 0){
         clearCalculator();
         alert("Cannot divide by Zero");
         return true;
@@ -44,6 +45,7 @@ function operate(){
         queueOperator.textContent += ` ${activeOperator.textContent} ${this.textContent}`;
         activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
         operationReady = false;
+        resetCalc = true;
     }
 }
 
@@ -58,7 +60,12 @@ function clearCalculator(){
 }
 
 function updateActiveOp(){
-    if(activeOperator.textContent === "0" || resetActive || !operationReady){
+    if(resetCalc){
+        clearCalculator();
+        resetCalc = false;
+    }
+        
+    if(activeOperator.textContent === "0" || resetActive){
         activeOperator.textContent = this.textContent;
         resetActive = false;
     }else{
@@ -70,7 +77,7 @@ function updateActiveOp(){
     else
         operator1num = activeOperator.textContent.includes(".") ? parseFloat(activeOperator.textContent) : parseInt(activeOperator.textContent);
 
-    if(this.textContent === "0" || operator2num && chosenOperator){
+    if(operator2num && chosenOperator){
         operationReady = true;
     }
 }
@@ -79,6 +86,7 @@ function pickOperator(){
     if(divideByZero())
         return;
     else if(operationReady){
+        console.log(operList[chosenOperator])
         let chainSol = operList[chosenOperator](operator1num,operator2num);
         queueOperator.textContent = ` ${chainSol} ${this.textContent}`;
         activeOperator.textContent = chainSol;
