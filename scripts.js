@@ -1,6 +1,7 @@
 
 let numButtons = document.querySelectorAll(".number")
 let operatorButtons = document.querySelectorAll(".operator")
+let equalsButton = document.querySelector(".equals")
 let clearButton = document.querySelector(".clear")
 let activeOperator = document.querySelector(".operator-2")
 let queueOperator = document.querySelector(".operator-1")
@@ -14,16 +15,22 @@ let activeNum = 0;
 let queueText = "";
 let queueNum = "";
 let chosenOperator = "";
+let operator1Ready = false;
+let operator2Ready = false;
 
 let operList = {
-    "÷":add,
-    "×":subtract,
-    "-":multiply,
-    "+":divide
+    "+":add,
+    "-":subtract,
+    "×":multiply,
+    "÷":divide
 }
 
-function operate(operator, operand1, operand2){
-    return operList[operator](operand1,operand2);
+function operate(){
+    if(chosenOperator && operator1Ready && operator2Ready){
+        queueText += `${activeOperator.textContent} =`;
+        activeOperator.textContent = activeNum = operList[chosenOperator](queueNum,activeNum);    
+    }
+    operator2Ready = false;
 }
 
 function clearCalculator(){
@@ -33,9 +40,11 @@ function clearCalculator(){
 }
 
 function updateActive(){
-    if(!activeNum)
+    if(operator1Ready && chosenOperator && !operator2Ready){
+        operator2Ready = true;
+        activeNum = 0;
         activeNum = parseInt(this.textContent)
-    else{
+    } else{
         activeNum += this.textContent;
         activeNum = parseInt(activeNum);
     }
@@ -44,11 +53,15 @@ function updateActive(){
 
 function pickOperator(){
     if(!chosenOperator){
+        chosenOperator = this.textContent;
         queueOperator.textContent = `${activeNum} ${this.textContent}`;
         queueNum = activeNum;
-        activeNum = 0;
-        activeOperator.textContent = activeNum;
+        operator1Ready = true;
+    }else{
+        chosenOperator = this.textContent;
+        queueOperator.textContent = queueOperator.textContent.slice(0, -1) + ` ${this.textContent}`;
     }
+    
     
 }
 
@@ -61,3 +74,4 @@ operatorButtons.forEach(element => {
 
 
 clearButton.addEventListener('click',clearCalculator)
+equalsButton.addEventListener('click',operate)
