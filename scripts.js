@@ -10,13 +10,14 @@ let add = (a,b) => a+b;
 let subtract = (a,b) => a-b;
 let multiply = (a,b) => a*b;
 let divide = (a,b) => a/b;
+let bottomText = activeOperator.textContent;
 
-let activeNum = 0;
-let queueText = "";
-let queueNum = "";
+
+let operator1num = 0;
 let chosenOperator = "";
-let operator1Ready = false;
-let operator2Ready = false;
+let operator2num = 0;
+let resetActive = false;
+
 
 let operList = {
     "+":add,
@@ -25,48 +26,47 @@ let operList = {
     "÷":divide
 }
 
+function allReady(){
+    return operator1num && chosenOperator && operator2num;
+}
+
 function operate(){
-    if(chosenOperator && operator1Ready && operator2Ready){
-        queueText += `${activeOperator.textContent} =`;
-        activeOperator.textContent = activeNum = operList[chosenOperator](queueNum,activeNum);    
+    if(allReady()){
+        queueOperator.textContent += ` ${activeOperator.textContent} ${this.textContent}`;
+        activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
     }
-    operator2Ready = false;
 }
 
 function clearCalculator(){
-    activeOperator.textContent = activeNum = 0;
-    queueOperator.textContent = queueNum = "";
+    operator1num = 0;
     chosenOperator = "";
+    operator2num = 0;
+    activeOperator.textContent = 0;
+    queueOperator.textContent = "";
 }
 
-function updateActive(){
-    if(operator1Ready && chosenOperator && !operator2Ready){
-        operator2Ready = true;
-        activeNum = 0;
-        activeNum = parseInt(this.textContent)
-    } else{
-        activeNum += this.textContent;
-        activeNum = parseInt(activeNum);
+function updateActiveOp(){
+    if(activeOperator.textContent === "0" || resetActive){
+        activeOperator.textContent = this.textContent;
+        resetActive = false;
+    }else{
+        activeOperator.textContent += this.textContent;
     }
-    activeOperator.textContent = activeNum;
+
+    if(chosenOperator)
+        operator2num = parseInt(activeOperator.textContent);
+    else
+        operator1num = parseInt(activeOperator.textContent);
 }
 
 function pickOperator(){
-    if(!chosenOperator){
-        chosenOperator = this.textContent;
-        queueOperator.textContent = `${activeNum} ${this.textContent}`;
-        queueNum = activeNum;
-        operator1Ready = true;
-    }else{
-        chosenOperator = this.textContent;
-        queueOperator.textContent = queueOperator.textContent.slice(0, -1) + ` ${this.textContent}`;
-    }
-    
-    
+    queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
+    chosenOperator = this.textContent;
+    resetActive = true;
 }
 
 numButtons.forEach(element => {
-    element.addEventListener('click',updateActive)
+    element.addEventListener('click',updateActiveOp)
 });
 operatorButtons.forEach(element => {
     element.addEventListener('click',pickOperator)
