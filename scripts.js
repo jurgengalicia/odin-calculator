@@ -18,8 +18,8 @@ let operator1num = 0;
 let chosenOperator = "";
 let operator2num = 0;
 let resetActive = false;
-let operationReady = false
 let resetCalc = false;
+let operationReady = false;
 
 
 let operList = {
@@ -56,7 +56,7 @@ function clearCalculator(){
     activeOperator.textContent = 0;
     queueOperator.textContent = "";
     resetActive = false;
-    operationReady = false
+    operationReady = false;
 }
 
 function updateActiveOp(){
@@ -83,7 +83,7 @@ function updateActiveOp(){
 }
 
 function pickOperator(){
-    if(divideByZero())
+    if(!resetActive && divideByZero())
         return;
     else if(operationReady){
         console.log(operList[chosenOperator])
@@ -93,7 +93,6 @@ function pickOperator(){
         operator1num = chainSol;
         operator2num = 0;
         operationReady = false;
-
     }else{
         queueOperator.textContent = `${activeOperator.textContent} ${this.textContent}`;
     }
