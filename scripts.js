@@ -46,6 +46,7 @@ function operate(){
         activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
         operationReady = false;
         resetCalc = true;
+        resetActive = true;
     }
 }
 
@@ -83,6 +84,7 @@ function updateActiveOp(){
 }
 
 function pickOperator(){
+    resetCalc = false;
     if(!resetActive && divideByZero())
         return;
     else if(operationReady){
