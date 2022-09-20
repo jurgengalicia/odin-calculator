@@ -110,6 +110,9 @@ function decimalOperator(){
     if(resetCalc){
         clearCalculator();
         resetCalc = false;
+    } else if(resetActive){
+        activeOperator.textContent = "0.";
+        resetActive = false;
     }
     if(activeOperator.textContent.includes("."))
         return;
