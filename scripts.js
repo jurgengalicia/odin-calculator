@@ -3,6 +3,7 @@ let numButtons = document.querySelectorAll(".number")
 let operatorButtons = document.querySelectorAll(".operator")
 let equalsButton = document.querySelector(".equals")
 let clearButton = document.querySelector(".clear")
+let deleteButton = document.querySelector(".delete")
 let activeOperator = document.querySelector(".operator-2")
 let queueOperator = document.querySelector(".operator-1")
 let decimalButton = document.querySelector(".period")
@@ -38,6 +39,10 @@ function divideByZero(){
     return false;
 }
 
+function parseDisplayNum(){
+    return activeOperator.textContent.includes(".") ? parseFloat(activeOperator.textContent) : parseInt(activeOperator.textContent);
+}
+
 function operate(){
     if(divideByZero())
         return;
@@ -64,8 +69,7 @@ function updateActiveOp(){
     if(resetCalc){
         clearCalculator();
         resetCalc = false;
-    }
-        
+    }  
     if(activeOperator.textContent === "0" || resetActive){
         activeOperator.textContent = this.textContent;
         resetActive = false;
@@ -74,11 +78,11 @@ function updateActiveOp(){
     }
 
     if(chosenOperator)
-        operator2num = activeOperator.textContent.includes(".") ? parseFloat(activeOperator.textContent) : parseInt(activeOperator.textContent);
+        operator2num = parseDisplayNum();
     else
-        operator1num = activeOperator.textContent.includes(".") ? parseFloat(activeOperator.textContent) : parseInt(activeOperator.textContent);
+        operator1num = parseDisplayNum();
 
-    if(operator2num && chosenOperator){
+    if(operator2num && chosenOperator || activeOperator.textContent === "0"){
         operationReady = true;
     }
 }
@@ -111,6 +115,17 @@ function decimalOperator(){
     }
 }
 
+function deleteOperator(){
+    if(activeOperator.textContent === "0"){
+        return;
+    }else if(activeOperator.textContent.length == 1){
+        activeOperator.textContent = 0;
+    }else{
+        activeOperator.textContent = activeOperator.textContent.substring(0, activeOperator.textContent.length - 1);
+    }
+    operator1num = parseDisplayNum();
+}
+
 numButtons.forEach(element => {
     element.addEventListener('click',updateActiveOp)
 });
@@ -122,3 +137,4 @@ operatorButtons.forEach(element => {
 clearButton.addEventListener('click',clearCalculator)
 equalsButton.addEventListener('click',operate)
 decimalButton.addEventListener('click',decimalOperator)
+deleteButton.addEventListener('click',deleteOperator)
