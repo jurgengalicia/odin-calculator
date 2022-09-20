@@ -44,8 +44,7 @@ function parseDisplayNum(){
 }
 
 function operate(){
-    if(divideByZero())
-        return;
+    if(divideByZero()) return;
     else if(operationReady){
         queueOperator.textContent += ` ${activeOperator.textContent} ${this.textContent}`;
         activeOperator.textContent = operator1num = operList[chosenOperator](operator1num,operator2num);
@@ -63,13 +62,12 @@ function clearCalculator(){
     queueOperator.textContent = "";
     resetActive = false;
     operationReady = false;
+    resetCalc = false;
 }
 
-function updateActiveOp(){
-    if(resetCalc){
+function updateActiveOp(keyPressed=0){
+    if(resetCalc)
         clearCalculator();
-        resetCalc = false;
-    }  
     if(activeOperator.textContent === "0" || resetActive){
         activeOperator.textContent = this.textContent;
         resetActive = false;
@@ -78,9 +76,9 @@ function updateActiveOp(){
     }
 
     if(chosenOperator)
-        operator2num = parseDisplayNum();
+        operator2num = parseDisplayNum(keyPressed);
     else
-        operator1num = parseDisplayNum();
+        operator1num = parseDisplayNum(keyPressed);
 
     if(operator2num && chosenOperator || activeOperator.textContent === "0"){
         operationReady = true;
@@ -89,8 +87,7 @@ function updateActiveOp(){
 
 function pickOperator(){
     resetCalc = false;
-    if(!resetActive && divideByZero())
-        return;
+    if(!resetActive && divideByZero()) return;
     else if(operationReady){
         console.log(operList[chosenOperator])
         let chainSol = operList[chosenOperator](operator1num,operator2num);
@@ -107,10 +104,8 @@ function pickOperator(){
 }
 
 function decimalOperator(){
-    if(resetCalc){
-        clearCalculator();
-        resetCalc = false;
-    } else if(resetActive){
+    if(resetCalc) clearCalculator();
+     else if(resetActive){
         activeOperator.textContent = "0.";
         resetActive = false;
     }
@@ -131,13 +126,20 @@ function deleteOperator(){
     operator1num = parseDisplayNum();
 }
 
+function keyboardInputs(e){
+    if(e.key >= 0 && e.key <=9){
+        updateActiveOp(e.key);
+    }
+}
+
+window.addEventListener('keydown', keyboardInputs);
+
 numButtons.forEach(element => {
     element.addEventListener('click',updateActiveOp)
 });
 operatorButtons.forEach(element => {
     element.addEventListener('click',pickOperator)
 });
-
 
 clearButton.addEventListener('click',clearCalculator)
 equalsButton.addEventListener('click',operate)
