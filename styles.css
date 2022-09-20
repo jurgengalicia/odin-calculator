@@ -1,5 +1,5 @@
 *{
-    
+    background-color: #181818;
 }
 
 button{
@@ -7,6 +7,17 @@ button{
     height:20%;
     border-radius: 10px;
     font-size: x-large;
+    background-color: #F2F2F2;
+}
+
+.op{
+    background-color: #F2F2F2;
+}
+.clear{
+    background-color: #EC7272;
+}
+.delete{
+    background-color: #5CB8E4;
 }
 
 .top-btn{
@@ -14,6 +25,7 @@ button{
     height:60%;
     border-radius: 10px;
     font-size: large;
+    
 }
 
 
@@ -22,12 +34,13 @@ button{
     flex-wrap: wrap;
     gap: 2px;
     padding: 2px;
+    background-color: #8758FF;
 }
 
 .input-text{
     flex-direction: column;
     justify-content: center;
-    background-color: aliceblue;
+    background-color: #F2F2F2;
     align-items: flex-end;
     border: black 2px solid;
     border-radius: 10px;
@@ -58,7 +71,7 @@ button{
 .calc-container{
     display: flex;
     flex-direction: column;
-    background-color:aquamarine;
+    background-color:#8758FF;
     border-radius: 20px;
     border: 3px solid black;
     padding: 2px;

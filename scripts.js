@@ -109,10 +109,8 @@ function pickOperator(){
 function decimalOperator(){
     if(activeOperator.textContent.includes("."))
         return;
-    else{
+    else
         activeOperator.textContent += this.textContent;
-        
-    }
 }
 
 function deleteOperator(){
