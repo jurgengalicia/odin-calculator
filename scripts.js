@@ -107,6 +107,10 @@ function pickOperator(){
 }
 
 function decimalOperator(){
+    if(resetCalc){
+        clearCalculator();
+        resetCalc = false;
+    }
     if(activeOperator.textContent.includes("."))
         return;
     else
