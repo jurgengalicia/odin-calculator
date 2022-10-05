@@ -12,7 +12,6 @@ let add = (a,b) => a+b;
 let subtract = (a,b) => a-b;
 let multiply = (a,b) => a*b;
 let divide = (a,b) => a/b;
-let percent = (a,b) => a/b;
 let bottomText = activeOperator.textContent;
 
 
