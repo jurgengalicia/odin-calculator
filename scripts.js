@@ -21,7 +21,6 @@ let operator2num = 0;
 let resetActive = false;
 let resetCalc = false;
 let operationReady = false;
-let operationReadys = false;
 
 let keyToOperConversion = {
     "+":"+",
